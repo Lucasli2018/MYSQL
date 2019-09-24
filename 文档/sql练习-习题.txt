@@ -1,19 +1,106 @@
-1、查询"01"课程比"02"课程成绩高的学生的信息及课程分数	
+1、查询"01"课程比"02"课程成绩高的学生的信息及课程分数
+解题思路：使用join...on...，left join...on...
+	或者使用隐式连接（有外键关系）
+	
+select a.*,b.s_score as 01_score,c.s_score as 02_score
+from student a,
+score b,
+score c
+where a.s_id=b.s_id
+and a.s_id=c.s_id
+and b.c_id='01'
+and c.c_id='02'
+and b.s_score>c.s_score;
+
 
 2、查询"01"课程比"02"课程成绩低的学生的信息及课程分数
+解题思路：使用join...on...，left join...on...
+
+select a.*,b.s_score as 01_score,c.s_score as 02_score
+from student a,
+score b,
+score c
+where a.s_id=b.s_id
+and a.s_id=c.s_id
+and b.c_id='01'
+and c.c_id='02'
+and b.s_score<c.s_score;
 
 3、查询平均成绩大于等于60分的同学的学生编号和学生姓名和平均成绩
+解题思路：使用group by，avg，round，having
+
+select a.s_id,a.s_name,round(avg(b.s_score),2) as avg_score
+from student a,
+score b
+where a.s_id=b.s_id
+group by a.s_id having avg_score>=60;
 
 4、查询平均成绩小于60分的同学的学生编号和学生姓名和平均成绩
+解题思路：使用group by，avg，round，注意：还有union，无成绩的算0分
+
+select a.s_id,a.s_name,round(avg(b.s_score),2) as avg_score
+from student a,
+score b
+where a.s_id=b.s_id
+group by a.s_id having avg_score<=60
+union 
+select a.s_id,a.s_name,0 as avg_score
+from student a
+where a.s_id not in (select distinct c.s_id from score c);
 
 5、查询所有同学的学生编号、学生姓名、选课总数、所有课程的总成绩
+解题思路：使用group by，count，sum
 
-6、查询"李"姓老师的数量 
+select a.s_id,a.s_name,count(b.c_id) as sum_course,sum(b.s_score) as sum_score
+from student a
+left join score b on b.s_id=a.s_id
+group by a.s_id;
+
+
+6、查询"李"姓老师的数量
+解题思路：使用like '李%'
+
+select count(*) as sum_li
+from teacher a
+where a.t_name like '李%';
 
 7、查询学过"张三"老师授课的同学的信息 
+解题思路：使用join...on...
+
+select a.*
+from student a
+join score b on b.s_id=a.s_id
+join course c on c.c_id=b.c_id
+join teacher d on d.t_id=c.t_id
+where d.t_name='张三';
 
 8、查询没学过"张三"老师授课的同学的信息 
+解决思路：使用join...on...，not in
+
+select * from student a
+where a.s_id not in (
+	select a.s_id
+	from student a
+	join score b on b.s_id=a.s_id
+	join course c on c.c_id=b.c_id
+	join teacher d on d.t_id=c.t_id
+	where d.t_name='张三');
 
 9、查询学过编号为"01"并且也学过编号为"02"的课程的同学的信息
+解决思路：使用join...on...，left join...on...，is not null
+		或者利用笛卡尔积的原理拼接学生表，成绩表，成绩表（隐式连接）
+
+select a.*
+from student a
+join score b on b.s_id=a.s_id and b.c_id='01'
+left join score c on c.s_id=a.s_id and c.c_id='02'
+where c.c_id is not null;
 
 10、查询学过编号为"01"但是没有学过编号为"02"的课程的同学的信息
+解决思路：使用join...on...，left join...on...，is null
+
+select a.*
+from student a
+join score b on b.s_id=a.s_id and b.c_id='01'
+left join score c on c.s_id=a.s_id and c.c_id='02'
+where c.c_id is null;
