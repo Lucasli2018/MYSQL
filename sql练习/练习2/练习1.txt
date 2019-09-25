@@ -1,0 +1,99 @@
+1.安装mysql数据库
+
+2.创建一个mydb1数据库，并查看。
+
+3.创建一个mydb2数据库，指定字符编码为gb2312;
+
+4.创建一个mydb3数据库，指定字符编码为utf8,并且指定校验规则;
+
+
+update练习
+
+drop table if exists employee;
+create table if not exists employee
+(
+	id int,
+	name varchar(20),
+	sex varchar(10),
+	birthday date,
+	salary float,	
+	resume text
+);
+
+
+insert into employee values (1,'zhangsan','male','1980-11-25',2000,'good body');
+insert into employee values(2,"lisi","male","1980-04-25",1000,"good body");
+insert into employee values(3,"xiaohong","female","1978-11-25",4000,"good girl");
+
+将所有员工薪水修改为5000元。
+
+
+将姓名为’zhangsan’的员工薪水修改为3000元。
+
+
+将姓名为’lisi’的员工薪水修改为4000元,sex改为female。
+
+将xiaohong的薪水在原有基础上增加1000元。
+
+
+
+select 练习
+
+create table student(
+	id int,
+	name varchar(20),
+	chinese float,
+	english float,
+	math float
+);
+
+insert into student(id,name,chinese,english,math) values(1,'张小明',89,78,90);
+insert into student(id,name,chinese,english,math) values(2,'李进',67,53,95);
+insert into student(id,name,chinese,english,math) values(3,'王五',87,78,77);
+insert into student(id,name,chinese,english,math) values(4,'李一',88,98,92);
+insert into student(id,name,chinese,english,math) values(5,'李来财',82,84,67);
+insert into student(id,name,chinese,english,math) values(6,'张进宝',55,85,45);
+insert into student(id,name,chinese,english,math) values(7,'黄蓉',75,65,30);
+
+
+
+查询表中所有学生的信息。
+
+
+查询表中所有学生的姓名和对应的英语成绩。;
+
+
+
+过滤表中重复数据。
+
+
+
+
+统计每个学生的总分。
+
+
+在所有学生总分数上加10分特长分。
+
+使用别名表示学生分数。
+
+查询姓名为李一的学生成绩
+
+查询英语成绩大于90分的同学
+查询总分大于200分的所有同学
+
+查询英语分数在 80－90之间的同学。
+查询数学分数为89,90,91的同学。
+查询所有姓李的学生英语成绩。
+
+查询数学分>80并且语文分>80的同学。
+
+查询英语>80或者总分>200的同学
+
+对数学成绩排序后输出。
+对总分排序后输出，然后再按从高到低的顺序输出
+对姓李的学生成绩排序输出
+
+
+
+
+
