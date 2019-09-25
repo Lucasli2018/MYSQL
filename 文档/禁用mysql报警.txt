@@ -1,0 +1,2 @@
+禁用主板报警： 修改 MySQL\MySQL Server 5.0\my.ini 
+在[mySQL] 下加入一行 no-beep 重进mySQL即可.
